@@ -1,5 +1,8 @@
 package hiber.model;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +21,9 @@ public class User {
 
    @Column(name = "email")
    private String email;
+   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+   @PrimaryKeyJoinColumn
+   private Car car;
 
    public User() {}
    
@@ -58,4 +64,23 @@ public class User {
    public void setEmail(String email) {
       this.email = email;
    }
+
+   public Car getCar() {
+      return car;
+   }
+
+   public void setCar(Car car) {
+      this.car = car;
+      car.setUser(this);
+   }
+
+    @Override
+    public String toString() {
+        return "User{" +
+               "id=" + id +
+               ", firstName='" + firstName + '\'' +
+               ", lastName='" + lastName + '\'' +
+               ", email='" + email + '\'' +
+               '}';
+    }
 }
